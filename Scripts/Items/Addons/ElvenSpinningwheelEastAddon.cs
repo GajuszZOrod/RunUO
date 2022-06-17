@@ -72,8 +72,7 @@ namespace Server.Items
 			{
 				switch ( c.ItemID )
 				{
-					case 0x1016:
-					case 0x101A:
+					case 0x2E3D:
 					case 0x101D:
 					case 0x10A5: --c.ItemID; break;
 				}
