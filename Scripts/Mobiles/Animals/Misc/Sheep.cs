@@ -82,7 +82,7 @@ namespace Server.Mobiles
 			ControlSlots = 1;
 			MinTameSkill = 11.1;
 
-			DefecationTimer a = new DefecationTimer(this);
+			DefecationTimer a = new DefecationTimer(this, true);
 			a.Start();
 		}
 
@@ -120,7 +120,7 @@ namespace Server.Mobiles
 				}
 			}
 
-			DefecationTimer a = new DefecationTimer(this);
+			DefecationTimer a = new DefecationTimer(this, true);
 			a.Start();
 		}
 	}

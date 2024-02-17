@@ -11,9 +11,18 @@ namespace Server.Items
 		private TimeSpan DungLivetime => DefecationTimer.DefaultDefecationInterval - TimeSpan.FromSeconds(2);
 
 		[Constructable]
-		public DungPile() : base(0x913)
+		public DungPile() : this(false)
 		{
-			Hue = Utility.RandomList(2308, 2309, 2310, 2311, 2312, 2313, 2314, 2315, 2316, 2317, 2318);
+		}
+
+		[Constructable]
+		public DungPile(bool small) : base(small ? 0x0F3C : 0x913)
+		{
+			if (small)
+				Hue = Utility.RandomList(2218, 2311, 2312, 2318);
+			else
+				Hue = Utility.RandomList(2308, 2309, 2310, 2311, 2312, 2313, 2314, 2315, 2316, 2317, 2318);
+
 			Name = "kupa lajna";
 
 			Timer.DelayCall(DungLivetime, Delete);
