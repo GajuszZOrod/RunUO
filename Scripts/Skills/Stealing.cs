@@ -58,6 +58,8 @@ namespace Server.SkillHandlers
 				if ( toSteal.Parent == null || !toSteal.Movable )
 					si = StealableArtifactsSpawner.GetStealableInstance( toSteal );
 
+				bool spawnedStealable = toSteal.Stealable || si != null;
+
 				if ( !IsEmptyHanded( m_Thief ) )
 				{
 					m_Thief.SendLocalizedMessage( 1005584 ); // Both hands must be free to steal.
@@ -174,7 +176,7 @@ namespace Server.SkillHandlers
 					}
 				}
 				#endregion
-				else if ( si == null && ( toSteal.Parent == null || !toSteal.Movable ) )
+				else if (!spawnedStealable && ( toSteal.Parent == null || !toSteal.Movable ) )
 				{
 					m_Thief.SendLocalizedMessage( 502710 ); // You can't steal that!
 				}
@@ -182,7 +184,7 @@ namespace Server.SkillHandlers
 				{
 					m_Thief.SendLocalizedMessage( 502710 ); // You can't steal that!
 				}
-				else if ( Core.AOS && si == null && toSteal is Container )
+				else if (!spawnedStealable && toSteal is Container )
 				{
 					m_Thief.SendLocalizedMessage( 502710 ); // You can't steal that!
 				}
@@ -190,7 +192,7 @@ namespace Server.SkillHandlers
 				{
 					m_Thief.SendLocalizedMessage( 502703 ); // You must be standing next to an item to steal it.
 				}
-				else if ( si != null && m_Thief.Skills[SkillName.Stealing].Value < 100.0 )
+				else if (spawnedStealable && m_Thief.Skills[SkillName.Stealing].Value < 100.0 )
 				{
 					m_Thief.SendLocalizedMessage( 1060025, "", 0x66D ); // You're not skilled enough to attempt the theft of this item.
 				}
@@ -316,6 +318,12 @@ namespace Server.SkillHandlers
 							{
 								toSteal.Movable = true;
 								si.Item = null;
+							}
+
+							if (toSteal.Stealable) // Note that toSteal != stolen, if item was Stackable
+							{
+								stolen.Movable = true;
+								stolen.Stealable = false;
 							}
 						}
 						else
